@@ -10,14 +10,13 @@ public class Produto {
     private Integer valor;
     private LocalDate dataValidade;
     private Long statusConsumo;
-    private Long IDcompra;
 
     public Produto() {
 
     }
 
     public Produto(Long id, String tipo, String nome, String marca, Integer valor,
-                   LocalDate dataValidade, Long statusConsumo, Long IDcompra) {
+                   LocalDate dataValidade, Long statusConsumo) {
         this.id = id;
         this.tipo = tipo;
         this.nome = nome;
@@ -25,7 +24,6 @@ public class Produto {
         this.valor = valor;
         this.dataValidade = dataValidade;
         this.statusConsumo = statusConsumo;
-        this.IDcompra = IDcompra;
     }
 
     public Long getId() {
@@ -46,10 +44,6 @@ public class Produto {
 
     public String getNome() {
         return nome;
-    }
-
-    public Long getIDcompra() {
-        return IDcompra;
     }
 
     public void setNome(String nome) {
@@ -86,9 +80,5 @@ public class Produto {
 
     public void setStatusConsumo(Long statusConsumo) {
         this.statusConsumo = statusConsumo;
-    }
-
-    public void setIDcompra(Long IDcompra) {
-        this.IDcompra = IDcompra;
     }
 }
