@@ -2,7 +2,7 @@ package com.example.controlealimentos.app.model;
 
 import java.time.LocalDate;
 
-public class ProdutoAPP {
+public class Produto {
     private Long id;
     private String tipo;
     private String nome;
@@ -10,9 +10,22 @@ public class ProdutoAPP {
     private Integer valor;
     private LocalDate dataValidade;
     private Long statusConsumo;
+    private Long IDcompra;
 
-    public ProdutoAPP() {
+    public Produto() {
 
+    }
+
+    public Produto(Long id, String tipo, String nome, String marca, Integer valor,
+                   LocalDate dataValidade, Long statusConsumo, Long IDcompra) {
+        this.id = id;
+        this.tipo = tipo;
+        this.nome = nome;
+        this.marca = marca;
+        this.valor = valor;
+        this.dataValidade = dataValidade;
+        this.statusConsumo = statusConsumo;
+        this.IDcompra = IDcompra;
     }
 
     public Long getId() {
@@ -33,6 +46,10 @@ public class ProdutoAPP {
 
     public String getNome() {
         return nome;
+    }
+
+    public Long getIDcompra() {
+        return IDcompra;
     }
 
     public void setNome(String nome) {
@@ -69,5 +86,9 @@ public class ProdutoAPP {
 
     public void setStatusConsumo(Long statusConsumo) {
         this.statusConsumo = statusConsumo;
+    }
+
+    public void setIDcompra(Long IDcompra) {
+        this.IDcompra = IDcompra;
     }
 }

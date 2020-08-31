@@ -1,21 +1,19 @@
-package com.example.controlealimentos.api.model;
-
-import com.example.controlealimentos.app.model.ProdutoAPP;
+package com.example.controlealimentos.app.model;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public class CompraAPI {
-
+public class Compra {
     private Long id;
     private LocalDate dataCompra;
     private String supermercado;
     private String telefone;
     private Integer valorCompra;
     private int inativo;
-    private List<ProdutoAPP> produtos;
 
-    public CompraAPI(){ }
+    public Compra() {
+
+    }
 
     public Long getId() {
         return id;
@@ -63,13 +61,5 @@ public class CompraAPI {
 
     public void setInativo(int inativo) {
         this.inativo = inativo;
-    }
-
-    public List<ProdutoAPP> getProdutos() {
-        return produtos;
-    }
-
-    public void setProdutos(List<ProdutoAPP> produtos) {
-        this.produtos = produtos;
     }
 }
