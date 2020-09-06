@@ -3,9 +3,10 @@ package com.example.controlealimentos.app.model;
 import java.time.LocalDate;
 import java.util.List;
 
+
 public class Compra {
     private Long id;
-    private LocalDate dataCompra;
+    private String dataCompra;
     private String supermercado;
     private String telefone;
     private Integer valorCompra;
@@ -23,11 +24,11 @@ public class Compra {
         this.id = id;
     }
 
-    public LocalDate getDataCompra() {
+    public String getDataCompra() {
         return dataCompra;
     }
 
-    public void setDataCompra(LocalDate dataCompra) {
+    public void setDataCompra(String dataCompra) {
         this.dataCompra = dataCompra;
     }
 

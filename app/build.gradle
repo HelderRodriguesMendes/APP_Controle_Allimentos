@@ -34,4 +34,7 @@ dependencies {
     //DEPENDENCIAS RETROFIT
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+
+    compile 'com.google.code.gson:gson:2.8.0'
+
 }

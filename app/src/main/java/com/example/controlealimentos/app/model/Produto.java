@@ -1,6 +1,11 @@
 package com.example.controlealimentos.app.model;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Produto {
     private Long id;
@@ -8,22 +13,12 @@ public class Produto {
     private String nome;
     private String marca;
     private Integer valor;
-    private LocalDate dataValidade;
+    private String dataValidade;
     private Long statusConsumo;
+    private Compra compra;
 
     public Produto() {
 
-    }
-
-    public Produto(Long id, String tipo, String nome, String marca, Integer valor,
-                   LocalDate dataValidade, Long statusConsumo) {
-        this.id = id;
-        this.tipo = tipo;
-        this.nome = nome;
-        this.marca = marca;
-        this.valor = valor;
-        this.dataValidade = dataValidade;
-        this.statusConsumo = statusConsumo;
     }
 
     public Long getId() {
@@ -66,11 +61,14 @@ public class Produto {
         this.valor = valor;
     }
 
-    public LocalDate getDataValidade() {
+    public String getDataValidade() {
+
         return dataValidade;
     }
 
-    public void setDataValidade(LocalDate dataValidade) {
+    public void setDataValidade(String dataValidade) {
+
+
         this.dataValidade = dataValidade;
     }
 

@@ -1,22 +1,30 @@
 package com.example.controlealimentos.app;
 
-import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.controlealimentos.R;
+import com.example.controlealimentos.app.model.Produto;
+
+import java.util.ArrayList;
+import java.util.List;
 
 //CLASSE QUE FAZ A SUBSTITUIÇÃO DOS DADOS NA LISTA
 public class AdapterProduto extends RecyclerView.Adapter<AdapterProduto.MyViewHolder> {
 
+    private List<Produto> listaprodutos = new ArrayList<>();
 
+    public AdapterProduto(List<Produto> lista) {
+        listaprodutos = lista;
+        for(Produto p : listaprodutos){
+            System.out.println("PRODUTO NO ADAPTER: " + p.getNome());
+        }
+    }
 
     @NonNull
     @Override //CRIA (APENAS UMA VEZ) AS VIEWS PARA MOSTRAR PARA O USUARIO
@@ -34,15 +42,17 @@ public class AdapterProduto extends RecyclerView.Adapter<AdapterProduto.MyViewHo
     @Override //EXIBE AS VIEWS CRIADAS - EXIBE OS DADOS DA LISTA
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        holder.nome.setText("Nome de Teste");
-        holder.dataValidade.setText("Data de Teste");
-        holder.marca.setText("Marca de Teste");
-        holder.id.setText("10");
+        Produto produto = listaprodutos.get(position);
+
+        holder.nome.setText(produto.getNome());
+        holder.dataValidade.setText(produto.getDataValidade());
+        holder.marca.setText(produto.getMarca());
+        holder.id.setText(String.valueOf(produto.getId()));
     }
 
     @Override //RETORNA A QUANTIDADE DE ITENS QUE VAI SER EXIBIDOS
     public int getItemCount() {
-        return 5;
+        return listaprodutos.size();
     }
 
 
