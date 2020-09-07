@@ -21,9 +21,6 @@ public class AdapterProduto extends RecyclerView.Adapter<AdapterProduto.MyViewHo
 
     public AdapterProduto(List<Produto> lista) {
         listaprodutos = lista;
-        for(Produto p : listaprodutos){
-            System.out.println("PRODUTO NO ADAPTER: " + p.getNome());
-        }
     }
 
     @NonNull

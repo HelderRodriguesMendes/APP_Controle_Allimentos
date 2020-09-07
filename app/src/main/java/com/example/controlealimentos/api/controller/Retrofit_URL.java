@@ -11,12 +11,8 @@ public class Retrofit_URL {
     public Retrofit URLBase(){
         Retrofit retrofit;
 
-        Gson gson = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd")
-                .create();
-
         retrofit = new Retrofit.Builder().baseUrl("http:192.168.1.5:8080/")
-                .addConverterFactory(GsonConverterFactory.create(gson)).build();
+                .addConverterFactory(GsonConverterFactory.create()).build();
         return retrofit;
     }
 }
