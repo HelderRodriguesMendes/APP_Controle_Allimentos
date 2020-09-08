@@ -1,4 +1,4 @@
-package com.example.controlealimentos;
+package com.example.controlealimentos.app.controller;
 
 import android.content.Context;
 import android.view.GestureDetector;

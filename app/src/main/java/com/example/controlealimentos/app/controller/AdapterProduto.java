@@ -1,4 +1,4 @@
-package com.example.controlealimentos.app;
+package com.example.controlealimentos.app.controller;
 
 import android.view.LayoutInflater;
 import android.view.View;

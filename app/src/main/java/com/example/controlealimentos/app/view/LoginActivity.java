@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if(usuario.getLogin().equals("Acesso altorizado")){
                     Toast.makeText(LoginActivity.this, usuario.getLogin(), Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(LoginActivity.this, List_ProdutosActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     startActivity(intent);
                 }else {
                     Toast.makeText(LoginActivity.this, usuario.getLogin(), Toast.LENGTH_SHORT).show();

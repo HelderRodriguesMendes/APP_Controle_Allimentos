@@ -15,11 +15,11 @@ import android.widget.Toast;
 
 
 import com.example.controlealimentos.R;
-import com.example.controlealimentos.RecyclerItemClickListener;
+import com.example.controlealimentos.app.controller.RecyclerItemClickListener;
 import com.example.controlealimentos.api.controller.Retrofit_URL;
 import com.example.controlealimentos.api.service.ProdutoService;
 
-import com.example.controlealimentos.app.AdapterProduto;
+import com.example.controlealimentos.app.controller.AdapterProduto;
 import com.example.controlealimentos.app.model.Produto;
 
 import java.time.LocalDate;
