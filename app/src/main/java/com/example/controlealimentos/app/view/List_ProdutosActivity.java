@@ -8,8 +8,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -35,38 +38,51 @@ import retrofit2.Response;
 public class List_ProdutosActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private ImageButton btnPesquisar;
+    private EditText txtnome;
 
     Retrofit_URL retrofit = new Retrofit_URL();
 
     List<Produto> listaProdutos = new ArrayList<>();
+    ProdutoService produtoService = retrofit.URLBase().create(ProdutoService.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list__produtos);
         recyclerView = findViewById(R.id.recyclerProdutos);
-        btnPesquisar = findViewById(R.id.btnPesquisar);
+        txtnome = findViewById(R.id.txtNome);
 
-        buscarProdutos();
 
-        btnPesquisar.setOnClickListener(new View.OnClickListener(){
+        buscarProdutosDisponveis();
+
+        txtnome.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View view) {
-                Toast.makeText(List_ProdutosActivity.this, "Clico no botao", Toast.LENGTH_SHORT).show();
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String nome = txtnome.getText().toString();
+                buscarProdutosNome(nome);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
+
     }
 
-    private void buscarProdutos(){
-        ProdutoService produtoService = retrofit.URLBase().create(ProdutoService.class);
-        Call<List<Produto>> call = produtoService.buscarProdutos();
+    private void buscarProdutosDisponveis() {
+        Call<List<Produto>> call = produtoService.buscarProdutosDisponiveis();
         call.enqueue(new Callback<List<Produto>>() {
 
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onResponse(Call<List<Produto>> call, Response<List<Produto>> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     listaProdutos = response.body();
                     listaProdutos(listaProdutos);
                 }
@@ -79,10 +95,36 @@ public class List_ProdutosActivity extends AppCompatActivity {
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void listaProdutos(final List<Produto> listaProdutos){
+    private void buscarProdutosNome(String nome) {
+        Call<List<Produto>> call = produtoService.buscarProdutosNome(nome);
+        call.enqueue(new Callback<List<Produto>>() {
 
-        for(Produto p : listaProdutos){
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(Call<List<Produto>> call, Response<List<Produto>> response) {
+                if (response.isSuccessful()) {
+                    listaProdutos = response.body();
+
+                    if(listaProdutos.isEmpty()){
+                        Toast.makeText(List_ProdutosActivity.this, "PRODUTO NÃO ENCONTRADO", Toast.LENGTH_SHORT).show();
+                        buscarProdutosDisponveis();
+                    }else{
+                        listaProdutos(listaProdutos);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Produto>> call, Throwable t) {
+                System.out.println("PRODUTO ERRO: "+ t.getMessage());
+            }
+        });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void listaProdutos(final List<Produto> listaProdutos) {
+
+        for (Produto p : listaProdutos) {
             LocalDate dt = LocalDate.parse(p.getDataValidade());
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             String dataFormatada = dt.format(formatter);
