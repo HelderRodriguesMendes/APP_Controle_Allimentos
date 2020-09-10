@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ import retrofit2.Response;
 public class List_ProdutosActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
+    private ImageButton btnPesquisar;
 
     Retrofit_URL retrofit = new Retrofit_URL();
 
@@ -44,8 +46,16 @@ public class List_ProdutosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list__produtos);
         recyclerView = findViewById(R.id.recyclerProdutos);
+        btnPesquisar = findViewById(R.id.btnPesquisar);
 
         buscarProdutos();
+
+        btnPesquisar.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(List_ProdutosActivity.this, "Clico no botao", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void buscarProdutos(){

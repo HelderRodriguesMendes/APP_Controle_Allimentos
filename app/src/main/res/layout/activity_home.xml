@@ -167,13 +167,13 @@
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:background="@drawable/circle_purple"
-                            android:padding="10dp"
+                            android:padding="12dp"
                             android:src="@drawable/ic_baseline_search" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="12dp"
                             android:text="Consultar Produto"
                             android:textStyle="bold" />
 
