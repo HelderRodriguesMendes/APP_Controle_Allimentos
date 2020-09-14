@@ -40,6 +40,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.cad_compra:i=new Intent(this, cadastrarCompraActivity.class);
                 startActivity(i);
                 break;
+            case R.id.cad_produto:i=new Intent(this, Cadastrar_Produto_Activity.class);
+                startActivity(i);
+                break;
         }
 
     }

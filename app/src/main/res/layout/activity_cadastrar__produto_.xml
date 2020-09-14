@@ -4,4 +4,108 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Cadastrar_Produto_Activity"/>
+    tools:context=".Cadastrar_Produto_Activity">
+
+    <TextView
+        android:id="@+id/textViewDataValidade"
+        android:layout_width="279dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="32dp"
+        android:background="@color/colorAccent"
+        android:gravity="center_vertical"
+        android:hint=" Validade"
+        android:textColor="@color/dark_gray"
+        android:textSize="24sp"
+        app:drawableLeftCompat="@drawable/data"
+        app:layout_constraintEnd_toEndOf="@+id/txtValor"
+        app:layout_constraintStart_toStartOf="@+id/txtValor"
+        app:layout_constraintTop_toBottomOf="@+id/txtValor" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:text="@string/tituloCadastroProduto"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/txtTipo"
+        android:layout_width="279dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:hint="Tipo"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/textView4"
+        app:layout_constraintStart_toStartOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <EditText
+        android:id="@+id/txtNome"
+        android:layout_width="279dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:hint="Nome"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/txtTipo"
+        app:layout_constraintStart_toStartOf="@+id/txtTipo"
+        app:layout_constraintTop_toBottomOf="@+id/txtTipo" />
+
+    <EditText
+        android:id="@+id/txtMarca"
+        android:layout_width="279dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:hint="Marca"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/txtNome"
+        app:layout_constraintStart_toStartOf="@+id/txtNome"
+        app:layout_constraintTop_toBottomOf="@+id/txtNome" />
+
+    <ImageView
+        android:id="@+id/imageViewSave"
+        android:layout_width="49dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/save"
+        app:layout_constraintEnd_toEndOf="@+id/textViewDataValidade"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDataValidade" />
+
+    <ImageView
+        android:id="@+id/imageViewAdd"
+        android:layout_width="68dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:src="@drawable/add"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewSave"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDataValidade" />
+
+    <me.abhinay.input.CurrencyEditText
+        android:id="@+id/txtValor"
+        android:layout_width="274dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="32dp"
+        android:hint=" Valor"
+        android:inputType="number"
+        android:textSize="24sp"
+        app:drawableLeftCompat="@drawable/money"
+        app:layout_constraintEnd_toEndOf="@+id/txtMarca"
+        app:layout_constraintStart_toStartOf="@+id/txtMarca"
+        app:layout_constraintTop_toBottomOf="@+id/txtMarca" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

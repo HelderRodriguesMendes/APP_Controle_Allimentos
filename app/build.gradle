@@ -47,4 +47,10 @@ dependencies {
 
     compile 'com.google.code.gson:gson:2.8.0'
 
+
+    //Mascara dos EditTexts
+    compile 'com.github.rtoshiro.mflibrary:mflibrary:1.0.0'
+    //Mascara monetaria
+    implementation 'me.abhinay.input:currency-edittext:1.1'
+
 }

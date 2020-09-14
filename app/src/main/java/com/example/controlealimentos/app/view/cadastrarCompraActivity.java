@@ -4,25 +4,29 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.controlealimentos.R;
 import com.example.controlealimentos.app.controller.Config;
+import com.github.rtoshiro.util.format.SimpleMaskFormatter;
+import com.github.rtoshiro.util.format.text.MaskTextWatcher;
 
 import java.util.Calendar;
 
 public class cadastrarCompraActivity extends AppCompatActivity {
 
-    private TextView dataCompra;
-    private EditText foneSupermercado;
-    private Button btnCadastrarCompra;
+    private TextView textViewDataCompra;
+    private EditText txtFoneSupermercado, txtSupermercado;
+    private Button btnAddProduto;
     int ano, mes, dia;
-    String DATA;
+    String DATA, ultimoCaracterDigitado = "";
 
 
     Config config = new Config();
@@ -32,14 +36,14 @@ public class cadastrarCompraActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastrar__compra_);
 
-        dataCompra = findViewById(R.id.textViewDataCompra);
-        foneSupermercado = findViewById(R.id.txtFoneSupermercado);
-
-
+        textViewDataCompra = findViewById(R.id.textViewDataCompra);
+        txtFoneSupermercado = findViewById(R.id.txtFoneSupermercado);
+        txtSupermercado = findViewById(R.id.txtSupermercado);
+        btnAddProduto = findViewById(R.id.btnAddProduto);
 
         final Calendar calendar = Calendar.getInstance();
 
-        dataCompra.setOnClickListener(new View.OnClickListener() {
+        textViewDataCompra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ano = calendar.get(Calendar.YEAR);
@@ -50,11 +54,42 @@ public class cadastrarCompraActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                         DATA = i2+"/"+(i1+1)+"/"+i;
-                        dataCompra.setText(config.configData(DATA));
+                        textViewDataCompra.setText(config.configData(DATA));
                     }
                 },ano,mes,dia);
                 datePickerDialog.show();
             }
         });
+
+        //MASCARA
+        SimpleMaskFormatter smf = new SimpleMaskFormatter("(NN) NNNNN-NNNN");
+        MaskTextWatcher mtw = new MaskTextWatcher(txtFoneSupermercado, smf);
+        txtFoneSupermercado.addTextChangedListener(mtw);
+
+        btnAddProduto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String vali = txtSupermercado.getText().toString();
+                if(validarCampus()){
+                    Intent intent = new Intent(cadastrarCompraActivity.this, Cadastrar_Produto_Activity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+    }
+
+    public boolean validarCampus(){
+        boolean ok = false;
+
+        if(textViewDataCompra.getText().toString().equals("")){
+            textViewDataCompra.setError("Preenchimento Obrigatório");
+            Toast.makeText(cadastrarCompraActivity.this, "INFORME A DATA QUE FOI REALIZADA A COMPRA", Toast.LENGTH_SHORT).show();
+        }else if(txtSupermercado.getText().toString().equals("")){
+            txtSupermercado.setError("Preenchimento Obrigatório");
+            txtSupermercado.requestFocus();
+        }else{
+            ok = true;
+        }
+        return ok;
     }
 }
