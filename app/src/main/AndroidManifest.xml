@@ -17,7 +17,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="HardcodedDebugMode">
-        <activity android:name=".app.view.HomeActivity"></activity>
+        <activity android:name=".app.view.Cadastrar_Produto_Activity"></activity>
+        <activity android:name=".app.view.cadastrarCompraActivity" />
+        <activity android:name=".app.view.HomeActivity" />
         <activity android:name=".app.view.LoginActivity" />
         <activity android:name=".app.view.List_ProdutosActivity" />
         <activity android:name=".app.view.Splash_Activity">

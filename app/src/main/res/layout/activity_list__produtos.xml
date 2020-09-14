@@ -12,7 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:textColor="@color/black"
         android:text="Produtos Disponiveis"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,11 +51,10 @@
         android:id="@+id/txtDataValidade"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Data de validade"
-        android:textSize="12sp"
+        android:text="Data de Validade"
+        android:textColor="@color/dark_blue"
+        android:textSize="13sp"
         app:layout_constraintBottom_toTopOf="@+id/recyclerProdutos"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toEndOf="@+id/txtProdutos_disponiveis" />
 
     <androidx.recyclerview.widget.RecyclerView

@@ -2,6 +2,7 @@
     <string name="app_name">ControleAlimentos</string>
     <string name="entrar">Entrar</string>
     <string name="titulo">CV Alimentos</string>
+    <string name="tituloCadastroCompra">Cadastrar Compra</string>
     <string name="sub_titulo">Controle de Validade de Alimentos</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>

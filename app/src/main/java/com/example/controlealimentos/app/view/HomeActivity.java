@@ -37,6 +37,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.consul_produto:i=new Intent(this, List_ProdutosActivity.class);
             startActivity(i);
             break;
+            case R.id.cad_compra:i=new Intent(this, cadastrarCompraActivity.class);
+                startActivity(i);
+                break;
         }
 
     }

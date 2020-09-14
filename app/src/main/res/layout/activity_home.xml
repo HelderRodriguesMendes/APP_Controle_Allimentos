@@ -197,7 +197,7 @@
                     android:layout_width="375dp"
                     android:layout_height="205dp"
                     android:layout_weight="1"
-                    app:srcCompat="@drawable/splash" />
+                    app:srcCompat="@drawable/carrinho" />
             </LinearLayout>
 
         </LinearLayout>
