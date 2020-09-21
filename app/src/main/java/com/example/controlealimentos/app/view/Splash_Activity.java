@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.example.controlealimentos.R;
-import com.example.controlealimentos.app.controller.Config;
+import com.example.controlealimentos.app.controller.ConfigApp;
 
 public class Splash_Activity extends AppCompatActivity {
 
@@ -26,6 +26,6 @@ public class Splash_Activity extends AppCompatActivity {
                 Intent intent = new Intent(Splash_Activity.this, LoginActivity.class);
                 startActivity(intent);
             }
-        }, Config.TIME_SPLASH);
+        }, ConfigApp.TIME_SPLASH);
     }
 }

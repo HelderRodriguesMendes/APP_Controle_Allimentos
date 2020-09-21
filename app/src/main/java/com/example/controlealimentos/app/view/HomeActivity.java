@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.controlealimentos.R;
+import com.example.controlealimentos.app.model.Compra;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -32,7 +33,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         Intent i;
-
+        Intent intent = new Intent(HomeActivity.this, Cadastrar_Produto_Activity.class);
         switch (view.getId()){
             case R.id.consul_produto:i=new Intent(this, List_ProdutosActivity.class);
             startActivity(i);
@@ -40,7 +41,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.cad_compra:i=new Intent(this, cadastrarCompraActivity.class);
                 startActivity(i);
                 break;
-            case R.id.cad_produto:i=new Intent(this, Cadastrar_Produto_Activity.class);
+            case R.id.cad_produto:i=intent;
+                Compra compra = new Compra();
+                intent.putExtra("compra", compra);
                 startActivity(i);
                 break;
         }

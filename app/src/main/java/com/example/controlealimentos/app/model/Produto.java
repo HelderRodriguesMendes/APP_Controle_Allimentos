@@ -12,7 +12,7 @@ public class Produto {
     private String tipo;
     private String nome;
     private String marca;
-    private Integer valor;
+    private Double valor;
     private String dataValidade;
     private Long statusConsumo;
     private Compra compra;
@@ -53,11 +53,11 @@ public class Produto {
         this.marca = marca;
     }
 
-    public Integer getValor() {
+    public Double getValor() {
         return valor;
     }
 
-    public void setValor(Integer valor) {
+    public void setValor(Double valor) {
         this.valor = valor;
     }
 

@@ -1,11 +1,11 @@
 package com.example.controlealimentos.app.controller;
 
-public class Config {
+public class ConfigApp {
 
     //TEMPO DE EXECUÇÃO DA TELA SPLASH
     public static final int TIME_SPLASH = 2 * 1000;
 
-    public String configData(String data){
+    public String configDataApp(String data){
         String dataFormatada, DIA = "", MES = "", ANO = "";
 
         int dia, mes, ano;

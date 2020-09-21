@@ -17,4 +17,8 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="supermercado">"  "Supermercado</string>
+    <string name="dataValidade">Validade</string>
+    <string name="btnOK">OK</string>
+    <string name="btnYes">SIM</string>
+    <string name="btnNo">NÃO</string>
 </resources>

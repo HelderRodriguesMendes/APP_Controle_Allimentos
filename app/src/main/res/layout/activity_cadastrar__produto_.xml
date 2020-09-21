@@ -13,12 +13,12 @@
         android:layout_marginTop="32dp"
         android:background="@color/colorAccent"
         android:gravity="center_vertical"
-        android:hint=" Validade"
+        android:hint="@string/dataValidade"
         android:textColor="@color/dark_gray"
         android:textSize="24sp"
         app:drawableLeftCompat="@drawable/data"
         app:layout_constraintEnd_toEndOf="@+id/txtValor"
-        app:layout_constraintStart_toStartOf="@+id/txtValor"
+        app:layout_constraintStart_toStartOf="@+id/imageView3"
         app:layout_constraintTop_toBottomOf="@+id/txtValor" />
 
     <TextView
@@ -94,16 +94,25 @@
         app:layout_constraintEnd_toStartOf="@+id/imageViewSave"
         app:layout_constraintTop_toBottomOf="@+id/textViewDataValidade" />
 
-    <me.abhinay.input.CurrencyEditText
+    <EditText
         android:id="@+id/txtValor"
-        android:layout_width="274dp"
+        android:layout_width="238dp"
         android:layout_height="47dp"
-        android:layout_marginTop="32dp"
-        android:hint=" Valor"
-        android:inputType="number"
-        android:textSize="24sp"
-        app:drawableLeftCompat="@drawable/money"
+        android:layout_marginTop="28dp"
+        android:hint="Valor"
+        android:inputType="numberDecimal"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/txtMarca"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/txtMarca"
+        app:layout_constraintTop_toBottomOf="@+id/txtMarca" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="32dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="28dp"
+        android:src="@drawable/money"
         app:layout_constraintStart_toStartOf="@+id/txtMarca"
         app:layout_constraintTop_toBottomOf="@+id/txtMarca" />
 

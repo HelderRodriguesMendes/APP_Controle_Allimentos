@@ -14,7 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.controlealimentos.R;
-import com.example.controlealimentos.app.controller.Config;
+import com.example.controlealimentos.app.controller.ConfigApp;
+import com.example.controlealimentos.app.model.Compra;
 import com.github.rtoshiro.util.format.SimpleMaskFormatter;
 import com.github.rtoshiro.util.format.text.MaskTextWatcher;
 
@@ -29,7 +30,7 @@ public class cadastrarCompraActivity extends AppCompatActivity {
     String DATA, ultimoCaracterDigitado = "";
 
 
-    Config config = new Config();
+    ConfigApp config = new ConfigApp();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class cadastrarCompraActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                         DATA = i2+"/"+(i1+1)+"/"+i;
-                        textViewDataCompra.setText(config.configData(DATA));
+                        textViewDataCompra.setText(config.configDataApp(DATA));
                     }
                 },ano,mes,dia);
                 datePickerDialog.show();
@@ -72,6 +73,7 @@ public class cadastrarCompraActivity extends AppCompatActivity {
                 String vali = txtSupermercado.getText().toString();
                 if(validarCampus()){
                     Intent intent = new Intent(cadastrarCompraActivity.this, Cadastrar_Produto_Activity.class);
+                    intent.putExtra("compra", preencherObjeto());
                     startActivity(intent);
                 }
             }
@@ -91,5 +93,15 @@ public class cadastrarCompraActivity extends AppCompatActivity {
             ok = true;
         }
         return ok;
+    }
+
+    public Compra preencherObjeto(){
+        Compra c = new Compra();
+
+        c.setDataCompra(textViewDataCompra.getText().toString());
+        c.setSupermercado(txtSupermercado.getText().toString());
+        c.setTelefone(txtFoneSupermercado.getText().toString());
+
+        return c;
     }
 }
