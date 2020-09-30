@@ -1,13 +1,6 @@
 package com.example.controlealimentos.app.model;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
-public class Produto {
+public class ProdutoDTO {
     private Long id;
     private String tipo;
     private String nome;
@@ -15,9 +8,9 @@ public class Produto {
     private Double valor;
     private String dataValidade;
     private Long statusConsumo;
-    private Compra compra;
+    private CompraDTO compra;
 
-    public Produto() {
+    public ProdutoDTO() {
 
     }
 

@@ -3,23 +3,24 @@ package com.example.controlealimentos.app.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 
-public class Compra implements Parcelable {
+public class CompraDTO implements Parcelable {
     private Long id;
     private String dataCompra;
     private String supermercado;
     private String telefone;
     private Double valorCompra;
     private int inativo;
+    private List<ProdutoDTO> produtosDTO= new ArrayList<>();
 
-    public Compra() {
+    public CompraDTO() {
 
     }
 
-    protected Compra(Parcel in) {
+    protected CompraDTO(Parcel in) {
         if (in.readByte() == 0) {
             id = null;
         } else {
@@ -36,15 +37,15 @@ public class Compra implements Parcelable {
         inativo = in.readInt();
     }
 
-    public static final Creator<Compra> CREATOR = new Creator<Compra>() {
+    public static final Creator<CompraDTO> CREATOR = new Creator<CompraDTO>() {
         @Override
-        public Compra createFromParcel(Parcel in) {
-            return new Compra(in);
+        public CompraDTO createFromParcel(Parcel in) {
+            return new CompraDTO(in);
         }
 
         @Override
-        public Compra[] newArray(int size) {
-            return new Compra[size];
+        public CompraDTO[] newArray(int size) {
+            return new CompraDTO[size];
         }
     };
 
@@ -94,6 +95,14 @@ public class Compra implements Parcelable {
 
     public void setInativo(int inativo) {
         this.inativo = inativo;
+    }
+
+    public List<ProdutoDTO> getProdutos() {
+        return produtosDTO;
+    }
+
+    public void setProdutos(List<ProdutoDTO> produtoDTOS) {
+        this.produtosDTO = produtoDTOS;
     }
 
     @Override

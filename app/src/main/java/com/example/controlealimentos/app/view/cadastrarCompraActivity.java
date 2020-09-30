@@ -1,10 +1,12 @@
 package com.example.controlealimentos.app.view;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,8 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.controlealimentos.R;
+import com.example.controlealimentos.api.controller.ConfigApi;
 import com.example.controlealimentos.app.controller.ConfigApp;
-import com.example.controlealimentos.app.model.Compra;
+import com.example.controlealimentos.app.model.CompraDTO;
 import com.github.rtoshiro.util.format.SimpleMaskFormatter;
 import com.github.rtoshiro.util.format.text.MaskTextWatcher;
 
@@ -30,7 +33,8 @@ public class cadastrarCompraActivity extends AppCompatActivity {
     String DATA, ultimoCaracterDigitado = "";
 
 
-    ConfigApp config = new ConfigApp();
+    ConfigApp configAPP = new ConfigApp();
+    ConfigApi configApi = new ConfigApi();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +59,7 @@ public class cadastrarCompraActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                         DATA = i2+"/"+(i1+1)+"/"+i;
-                        textViewDataCompra.setText(config.configDataApp(DATA));
+                        textViewDataCompra.setText(configAPP.configDataApp(DATA));
                     }
                 },ano,mes,dia);
                 datePickerDialog.show();
@@ -68,6 +72,7 @@ public class cadastrarCompraActivity extends AppCompatActivity {
         txtFoneSupermercado.addTextChangedListener(mtw);
 
         btnAddProduto.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
                 String vali = txtSupermercado.getText().toString();
@@ -95,10 +100,11 @@ public class cadastrarCompraActivity extends AppCompatActivity {
         return ok;
     }
 
-    public Compra preencherObjeto(){
-        Compra c = new Compra();
-
-        c.setDataCompra(textViewDataCompra.getText().toString());
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public CompraDTO preencherObjeto(){
+        CompraDTO c = new CompraDTO();
+        String data = textViewDataCompra.getText().toString();
+        c.setDataCompra(configApi.configDataApi(data));
         c.setSupermercado(txtSupermercado.getText().toString());
         c.setTelefone(txtFoneSupermercado.getText().toString());
 

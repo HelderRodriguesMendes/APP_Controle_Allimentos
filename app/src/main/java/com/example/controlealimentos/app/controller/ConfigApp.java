@@ -32,4 +32,11 @@ public class ConfigApp {
 
         return dataFormatada;
     }
+
+    public Double formatarValor(Double valor){
+        String v = String.format("%.2f", valor);
+        v = v.replace(",", ".");
+        System.out.println("valor formatado: " + v);
+        return Double.valueOf(v);
+    }
 }

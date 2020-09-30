@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.controlealimentos.R;
-import com.example.controlealimentos.app.model.Compra;
+import com.example.controlealimentos.app.model.CompraDTO;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -42,7 +42,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(i);
                 break;
             case R.id.cad_produto:i=intent;
-                Compra compra = new Compra();
+                CompraDTO compra = new CompraDTO();
                 intent.putExtra("compra", compra);
                 startActivity(i);
                 break;

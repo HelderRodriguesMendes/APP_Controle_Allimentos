@@ -21,33 +21,44 @@ import android.widget.Toast;
 
 import com.example.controlealimentos.R;
 import com.example.controlealimentos.api.controller.ConfigApi;
+import com.example.controlealimentos.api.controller.Retrofit_URL;
+import com.example.controlealimentos.api.service.CompraService;
+import com.example.controlealimentos.api.service.ProdutoService;
 import com.example.controlealimentos.app.controller.ConfigApp;
-import com.example.controlealimentos.app.model.Compra;
-import com.example.controlealimentos.app.model.Produto;
+import com.example.controlealimentos.app.model.CompraDTO;
+import com.example.controlealimentos.app.model.ProdutoDTO;
 
+import java.sql.SQLOutput;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Cadastrar_Produto_Activity extends AppCompatActivity {
 
     private EditText txtNome, txtTipo, txtMarca, txtValor;
     private  TextView textViewDataValidade;
     private ImageView btnAdd, btnSave;
-    Compra COMPRA = new Compra();
+    CompraDTO COMPRA = new CompraDTO();
 
-    boolean cadastrar = true;
+    Retrofit_URL retrofit = new Retrofit_URL();
+
+    boolean cadastrar = true, ok = false;
 
     ConfigApp configApp = new ConfigApp();
     ConfigApi configApi = new ConfigApi();
 
-    List<Produto> PRODUTOS = new ArrayList<>();
+    List<ProdutoDTO> PRODUTODTOS = new ArrayList<>();
 
     NumberFormat numberCurrencyFormat = NumberFormat.getCurrencyInstance();
 
     int ano, mes, dia;
     String DATA, MSG = "", TITULO = "", STATUS = "";
+    double valorcompra;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +106,8 @@ public class Cadastrar_Produto_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(validarCampus()){
-                    PRODUTOS.add(preecherObjeto());
+                    PRODUTODTOS.add(preecherObjeto());
+                    Toast.makeText(Cadastrar_Produto_Activity.this, "Produto Adicionado", Toast.LENGTH_SHORT).show();
                     limparCampus();
                 }
             }
@@ -170,31 +182,22 @@ public class Cadastrar_Produto_Activity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
-               if(status.equals("FINALIZAR COMPRA")){
-                   if(!txtTipo.getText().toString().equals("") && !txtNome.getText().toString().equals("") &&
-                           !textViewDataValidade.getText().toString().equals("")){
-                       if(validarCampus()){
-                           PRODUTOS.add(preecherObjeto());
-
-                           //AQUI EU MANDO OS DADOS PARA A API PRA SALVA
-
-                           limparCampus();
-                           TITULO = "CADASTRO DE COMPRA";
-                           MSG = "Cadastro realizado com sucesso!";
-                           STATUS = "FINALIZAR COMPRA";
-                           msgSucesso(TITULO, MSG, STATUS);
-                           alertDialog.dismiss();
-                       }
-                   }else{
-                       //AQUI EU MANDO OS DADOS PARA A API PRA SALVA
-
-                       TITULO = "CADASTRO DE COMPRA";
-                       MSG = "Cadastro realizado com sucesso!";
-                       STATUS = "FINALIZAR COMPRA";
-                       msgSucesso(TITULO, MSG, STATUS);
-                       alertDialog.dismiss();
-                   }
-               }
+                if(status.equals("FINALIZAR COMPRA")){
+                    if(!txtTipo.getText().toString().equals("") && !txtNome.getText().toString().equals("") &&
+                            !textViewDataValidade.getText().toString().equals("")){
+                        if(validarCampus()){
+                            PRODUTODTOS.add(preecherObjeto());
+                            COMPRA.setProdutos(PRODUTODTOS);
+                            salvarCompra(COMPRA);
+                            limparCampus();
+                            alertDialog.dismiss();
+                        }
+                    }else{
+                        COMPRA.setProdutos(PRODUTODTOS);
+                        salvarCompra(COMPRA);
+                        alertDialog.dismiss();
+                    }
+                }
             }
         });
 
@@ -205,7 +208,7 @@ public class Cadastrar_Produto_Activity extends AppCompatActivity {
                 if(!txtTipo.getText().toString().equals("") && !txtNome.getText().toString().equals("") &&
                         !textViewDataValidade.getText().toString().equals("")){
                     if(validarCampus()){
-                        PRODUTOS.add(preecherObjeto());
+                        PRODUTODTOS.add(preecherObjeto());
                         limparCampus();
                         alertDialog.dismiss();
                     }
@@ -220,7 +223,32 @@ public class Cadastrar_Produto_Activity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    public boolean validarCampus(){
+
+    public void salvarCompra(CompraDTO compraDTO){
+        CompraService compraService = retrofit.URLBase().create(CompraService.class);
+        Call<CompraDTO> call = compraService.salvarCompra(compraDTO);
+
+        call.enqueue(new Callback<CompraDTO>() {
+            @Override
+            public void onResponse(Call<CompraDTO> call, Response<CompraDTO> response) {
+                if(response.isSuccessful()){
+                    COMPRA = response.body();
+                    TITULO = "CADASTRO DE COMPRA";
+                    MSG = "Cadastro realizado com sucesso!";
+                    STATUS = "FINALIZAR COMPRA";
+                    limparCampus();
+                    msgSucesso(TITULO, MSG, STATUS);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CompraDTO> call, Throwable t) {
+                System.out.println("ERRO AO SALVAR: " + t.getMessage());
+            }
+        });
+    }
+
+    private boolean validarCampus(){
         boolean ok = false;
 
         if(txtTipo.getText().toString().equals("")){
@@ -245,8 +273,8 @@ public class Cadastrar_Produto_Activity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public Produto preecherObjeto(){
-        Produto p = new Produto();
+    private ProdutoDTO preecherObjeto(){
+        ProdutoDTO p = new ProdutoDTO();
 
         p.setTipo(txtTipo.getText().toString());
         p.setNome(txtNome.getText().toString());
@@ -254,6 +282,8 @@ public class Cadastrar_Produto_Activity extends AppCompatActivity {
         String va = txtValor.getText().toString();
         va = va.replace(",", ".");
         p.setValor(Double.parseDouble(va));
+        valorcompra += p.getValor();
+        COMPRA.setValorCompra(configApp.formatarValor(valorcompra));
         String data = textViewDataValidade.getText().toString();
         p.setDataValidade(configApi.configDataApi(data));
 

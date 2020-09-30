@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.controlealimentos.R;
-import com.example.controlealimentos.app.model.Produto;
+import com.example.controlealimentos.app.model.ProdutoDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +17,9 @@ import java.util.List;
 //CLASSE QUE FAZ A SUBSTITUIÇÃO DOS DADOS NA LISTA
 public class AdapterProduto extends RecyclerView.Adapter<AdapterProduto.MyViewHolder> {
 
-    private List<Produto> listaprodutos = new ArrayList<>();
+    private List<ProdutoDTO> listaprodutos = new ArrayList<>();
 
-    public AdapterProduto(List<Produto> lista) {
+    public AdapterProduto(List<ProdutoDTO> lista) {
         listaprodutos = lista;
     }
 
@@ -39,12 +39,12 @@ public class AdapterProduto extends RecyclerView.Adapter<AdapterProduto.MyViewHo
     @Override //EXIBE AS VIEWS CRIADAS - EXIBE OS DADOS DA LISTA
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        Produto produto = listaprodutos.get(position);
+        ProdutoDTO produtoDTO = listaprodutos.get(position);
 
-        holder.nome.setText(produto.getNome());
-        holder.dataValidade.setText(produto.getDataValidade());
-        holder.marca.setText(produto.getMarca());
-        holder.id.setText(String.valueOf(produto.getId()));
+        holder.nome.setText(produtoDTO.getNome());
+        holder.dataValidade.setText(produtoDTO.getDataValidade());
+        holder.marca.setText(produtoDTO.getMarca());
+        holder.id.setText(String.valueOf(produtoDTO.getId()));
     }
 
     @Override //RETORNA A QUANTIDADE DE ITENS QUE VAI SER EXIBIDOS
