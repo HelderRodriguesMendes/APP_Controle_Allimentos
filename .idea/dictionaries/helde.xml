@@ -2,10 +2,15 @@
   <dictionary name="helde">
     <words>
       <w>cadastrar</w>
+      <w>compra</w>
       <w>digitados</w>
       <w>digitos</w>
+      <w>marca</w>
+      <w>produto</w>
       <w>quantidade</w>
       <w>senha</w>
+      <w>supermercado</w>
+      <w>vencimento</w>
     </words>
   </dictionary>
 </component>

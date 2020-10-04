@@ -10,7 +10,7 @@ public class Retrofit_URL {
 
     public Retrofit URLBase(){
         Retrofit retrofit;
-        retrofit = new Retrofit.Builder().baseUrl("http:192.168.1.2:8080/")
+        retrofit = new Retrofit.Builder().baseUrl("http:192.168.1.6:8080/")
                 .addConverterFactory(GsonConverterFactory.create()).build();
         return retrofit;
     }

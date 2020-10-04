@@ -64,7 +64,7 @@ public class AdapterProduto extends RecyclerView.Adapter<AdapterProduto.MyViewHo
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            nome = itemView.findViewById(R.id.textNome);
+            nome = itemView.findViewById(R.id.textNomeProduto);
             dataValidade = itemView.findViewById(R.id.textDataVencimento);
             marca = itemView.findViewById(R.id.textMarca);
             id = itemView.findViewById(R.id.textID);

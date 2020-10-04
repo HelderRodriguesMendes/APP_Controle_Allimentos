@@ -46,6 +46,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 intent.putExtra("compra", compra);
                 startActivity(i);
                 break;
+            case R.id.consul_compra:i=new Intent(this, List_ComprasActivity.class);
+                startActivity(i);
+                break;
         }
 
     }

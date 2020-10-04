@@ -60,7 +60,7 @@ public class List_ProdutosActivity extends AppCompatActivity {
 
             }
 
-            @Override
+            @Override //Evento ao digitar no EditText
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String nome = txtnome.getText().toString();
                 buscarProdutosNome(nome);

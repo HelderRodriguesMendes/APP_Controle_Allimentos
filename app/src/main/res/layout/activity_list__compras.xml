@@ -2,26 +2,23 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activityListar_Produto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".app.view.List_ProdutosActivity">
-
+    tools:context=".app.view.List_ComprasActivity">
     <TextView
-        android:id="@+id/txtProdutos_disponiveis"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:id="@+id/txtComprasRealizadas"
+        android:layout_width="147dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="8dp"
+        android:text="Compras Realizadas"
         android:textColor="@color/black"
-        android:text="Produtos Disponiveis"
-        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/linearLayout3"
         android:layout_width="413dp"
         android:layout_height="97dp"
         android:clipToPadding="false"
@@ -30,35 +27,32 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtProdutos_disponiveis">
-
+        app:layout_constraintTop_toBottomOf="@+id/txtComprasRealizadas">
 
         <EditText
-            android:id="@+id/txtNome"
+            android:id="@+id/txtNomeSupermercado"
             android:layout_width="390dp"
             android:layout_height="wrap_content"
-            android:hint="Nome do Produto..."
+            android:hint="Nome do Supermercado..."
             android:inputType="textPersonName"
 
             android:drawableRight="@drawable/ic_baseline_search"
-            android:drawableTint="@color/colorPrimary"
-            />
-
-
+            android:drawableTint="@color/colorPrimary"/>
     </LinearLayout>
 
     <TextView
-        android:id="@+id/txtDataValidade"
+        android:id="@+id/textViewData_Compra"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Data de Validade"
+        android:text="Data da Compra"
         android:textColor="@color/dark_blue"
         android:textSize="13sp"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerProdutos"
-        app:layout_constraintStart_toEndOf="@+id/txtProdutos_disponiveis" />
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewCompra"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtComprasRealizadas" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerProdutos"
+        android:id="@+id/recyclerViewCompra"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="1dp"
@@ -68,5 +62,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"/>
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
