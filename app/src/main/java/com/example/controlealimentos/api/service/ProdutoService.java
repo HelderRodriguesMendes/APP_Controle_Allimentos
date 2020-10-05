@@ -17,4 +17,7 @@ public interface ProdutoService {
 
     @GET("produto/buscarProduto?")
     Call<List<ProdutoDTO>> buscarProdutosNome(@Query("nome") String nome);
+
+    @POST("produto")
+    Call<ProdutoDTO> salvarProduto(@Body ProdutoDTO produtoDTO);
 }

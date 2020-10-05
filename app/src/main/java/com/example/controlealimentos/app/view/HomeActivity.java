@@ -34,6 +34,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         Intent i;
         Intent intent = new Intent(HomeActivity.this, Cadastrar_Produto_Activity.class);
+
         switch (view.getId()){
             case R.id.consul_produto:i=new Intent(this, List_ProdutosActivity.class);
             startActivity(i);
@@ -44,6 +45,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.cad_produto:i=intent;
                 CompraDTO compra = new CompraDTO();
                 intent.putExtra("compra", compra);
+                Cadastrar_Produto_Activity.status_Form("Cadastro de produto");
                 startActivity(i);
                 break;
             case R.id.consul_compra:i=new Intent(this, List_ComprasActivity.class);

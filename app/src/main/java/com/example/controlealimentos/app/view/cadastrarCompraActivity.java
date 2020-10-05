@@ -79,6 +79,7 @@ public class cadastrarCompraActivity extends AppCompatActivity {
                 if(validarCampus()){
                     Intent intent = new Intent(cadastrarCompraActivity.this, Cadastrar_Produto_Activity.class);
                     intent.putExtra("compra", preencherObjeto());
+                    Cadastrar_Produto_Activity.status_Form("Cadastro de compra");
                     startActivity(intent);
                 }
             }

@@ -1,9 +1,5 @@
 package com.example.controlealimentos.app.view;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -19,6 +15,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.example.controlealimentos.R;
 import com.example.controlealimentos.api.controller.ConfigApi;
 import com.example.controlealimentos.api.controller.Retrofit_URL;
@@ -28,7 +28,6 @@ import com.example.controlealimentos.app.controller.ConfigApp;
 import com.example.controlealimentos.app.model.CompraDTO;
 import com.example.controlealimentos.app.model.ProdutoDTO;
 
-import java.sql.SQLOutput;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -48,11 +47,13 @@ public class Cadastrar_Produto_Activity extends AppCompatActivity {
     Retrofit_URL retrofit = new Retrofit_URL();
 
     boolean cadastrar = true, ok = false;
+    static String STATUSFORM;
 
     ConfigApp configApp = new ConfigApp();
     ConfigApi configApi = new ConfigApi();
 
     List<ProdutoDTO> PRODUTODTOS = new ArrayList<>();
+    ProdutoDTO PRODUTO_DTO = new ProdutoDTO();
 
     NumberFormat numberCurrencyFormat = NumberFormat.getCurrencyInstance();
 
@@ -76,6 +77,7 @@ public class Cadastrar_Produto_Activity extends AppCompatActivity {
 
         //recebendo objeto compra mandado pela activity cadastrarCompraActivity
         COMPRA = getIntent().getExtras().getParcelable("compra");
+
         if(COMPRA.getSupermercado() == null){
             btnAdd.setVisibility(View.GONE);
             cadastrar = false;
@@ -114,6 +116,7 @@ public class Cadastrar_Produto_Activity extends AppCompatActivity {
         });
 
         btnSave.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
                 if(validarCampus()){
@@ -123,10 +126,14 @@ public class Cadastrar_Produto_Activity extends AppCompatActivity {
                         STATUS = "FINALIZAR COMPRA";
                         msgAlert(TITULO, MSG, STATUS);
                     }else{
-                        TITULO = "Alterar";
-                        MSG = "Deseja Alterar os Dados?";
-                        STATUS = "ALTERAR";
-                        msgSucesso(TITULO, MSG, STATUS);
+                        if(STATUSFORM.equals("Cadastro de produto")){
+                            salvaProduto(preecherObjeto());
+                        }else if(STATUSFORM.equals("Alterar")){
+                            TITULO = "Alterar";
+                            MSG = "Deseja Alterar os Dados?";
+                            STATUS = "ALTERAR";
+                            msgSucesso(TITULO, MSG, STATUS);
+                        }
                     }
                 }
             }
@@ -149,7 +156,7 @@ public class Cadastrar_Produto_Activity extends AppCompatActivity {
         view.findViewById(R.id.btnAction).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(status.equals("FINALIZAR COMPRA")){
+                if(status.equals("FINALIZAR COMPRA") || status.equals("FINALIZAR PRODUTO")){
                     Intent intent = new Intent(Cadastrar_Produto_Activity.this, HomeActivity.class);
                     startActivity(intent);
                 }
@@ -248,6 +255,30 @@ public class Cadastrar_Produto_Activity extends AppCompatActivity {
         });
     }
 
+    public void salvaProduto(ProdutoDTO produtoDTO){
+        ProdutoService produtoService = retrofit.URLBase().create(ProdutoService.class);
+        Call<ProdutoDTO> call = produtoService.salvarProduto(produtoDTO);
+
+        call.enqueue(new Callback<ProdutoDTO>() {
+            @Override
+            public void onResponse(Call<ProdutoDTO> call, Response<ProdutoDTO> response) {
+                if(response.isSuccessful()){
+                    PRODUTO_DTO = response.body();
+                    TITULO = "CADASTRO DE Produto";
+                    MSG = "Cadastro realizado com sucesso!";
+                    STATUS = "FINALIZAR PRODUTO";
+                    limparCampus();
+                    msgSucesso(TITULO, MSG, STATUS);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProdutoDTO> call, Throwable t) {
+
+            }
+        });
+    }
+
     private boolean validarCampus(){
         boolean ok = false;
 
@@ -286,6 +317,9 @@ public class Cadastrar_Produto_Activity extends AppCompatActivity {
         COMPRA.setValorCompra(configApp.formatarValor(valorcompra));
         String data = textViewDataValidade.getText().toString();
         p.setDataValidade(configApi.configDataApi(data));
+        if(STATUSFORM.equals("Cadastro de compra") || STATUSFORM.equals("Cadastro de produto")){
+            p.setStatusConsumo((long) 0);
+        }
 
         return p;
     }
@@ -296,5 +330,9 @@ public class Cadastrar_Produto_Activity extends AppCompatActivity {
         txtMarca.setText("");
         txtValor.setText("");
         textViewDataValidade.setText("");
+    }
+
+    public static void status_Form(String status){
+       STATUSFORM = status;
     }
 }
