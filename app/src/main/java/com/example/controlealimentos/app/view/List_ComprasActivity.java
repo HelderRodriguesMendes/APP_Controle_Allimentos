@@ -2,16 +2,24 @@ package com.example.controlealimentos.app.view;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.controlealimentos.R;
@@ -36,6 +44,8 @@ public class List_ComprasActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private EditText txtnomeSupermercado;
     Retrofit_URL retrofit = new Retrofit_URL();
+
+    String titulo, msg, status;
 
     private List<CompraDTO> listaCompra = new ArrayList<>();
     CompraService compraService = retrofit.URLBase().create(CompraService.class);
@@ -142,9 +152,9 @@ public class List_ComprasActivity extends AppCompatActivity {
                             @Override
                             public void onItemClick(View view, int position) {
                                 CompraDTO compraDTO = list.get(position);
-                                Toast.makeText(List_ComprasActivity.this, "CLICK CURTO Supermercado: " + compraDTO.getSupermercado(), Toast.LENGTH_SHORT).show();
-                                Toast.makeText(List_ComprasActivity.this, "CLICK CURTO ID: " + compraDTO.getId(), Toast.LENGTH_SHORT).show();
-                                Toast.makeText(List_ComprasActivity.this, "CLICK CURTO DATA COMPRA: " + compraDTO.getDataCompra(), Toast.LENGTH_SHORT).show();
+                                titulo = "COMPRA: EDITAR - EXCLUIR - CONSULTAR PRODUTOS";
+                                msg = "O que deseja realizar com esta compra?";
+                                msgAlert_three(titulo, msg, compraDTO);
                             }
 
                             @Override
@@ -162,5 +172,55 @@ public class List_ComprasActivity extends AppCompatActivity {
                         }
                 )
         );
+    }
+
+    public void msgAlert_three(final String titulo, String msg, final CompraDTO compraDTO) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(List_ComprasActivity.this, R.style.AlertDialogTheme);
+        View view = LayoutInflater.from(List_ComprasActivity.this).inflate(
+                R.layout.layout_warning_dialog_three,(ConstraintLayout) findViewById(R.id.layoutDialogContainer)
+        );
+        builder.setView(view);
+        ((TextView) view.findViewById(R.id.txtTitle)).setText(titulo);
+        ((TextView) view.findViewById(R.id.txtMessage)).setText(msg);
+        ((Button) view.findViewById(R.id.btnOpcao1)).setText(getResources().getString(R.string.btnEdit));
+        ((Button) view.findViewById(R.id.btnOpcao2)).setText(getResources().getString(R.string.btnExclu));
+        ((Button) view.findViewById(R.id.btnOpcao3)).setText(getResources().getString(R.string.btnConsulPro));
+        ((ImageView) view.findViewById(R.id.imageIcon)).setImageResource(R.drawable.ic_warning);
+
+        final AlertDialog alertDialog = builder.create();
+
+        view.findViewById(R.id.btnOpcao1).setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(List_ComprasActivity.this, cadastrarCompraActivity.class);
+                intent.putExtra("compra", compraDTO);
+                cadastrarCompraActivity.status_Form("Alterar");
+                startActivity(intent);
+                alertDialog.dismiss();
+            }
+        });
+
+        view.findViewById(R.id.btnOpcao2).setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        view.findViewById(R.id.btnOpcao3).setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        if(alertDialog.getWindow() != null){
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+
+        alertDialog.show();
     }
 }

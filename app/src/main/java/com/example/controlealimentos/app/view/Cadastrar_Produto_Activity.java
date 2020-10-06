@@ -40,7 +40,7 @@ import retrofit2.Response;
 public class Cadastrar_Produto_Activity extends AppCompatActivity {
 
     private EditText txtNome, txtTipo, txtMarca, txtValor;
-    private  TextView textViewDataValidade;
+    private  TextView textViewDataValidade, titulo;
     private ImageView btnAdd, btnSave;
     CompraDTO COMPRA = new CompraDTO();
 
@@ -70,6 +70,7 @@ public class Cadastrar_Produto_Activity extends AppCompatActivity {
         txtTipo = findViewById(R.id.txtTipo);
         txtMarca = findViewById(R.id.txtMarca);
         txtValor = findViewById(R.id.txtValor);
+        titulo = findViewById(R.id.txtV_Titulo_P);
 
         textViewDataValidade = findViewById(R.id.textViewDataValidade);
         btnAdd = findViewById(R.id.imageViewAdd);
@@ -78,6 +79,7 @@ public class Cadastrar_Produto_Activity extends AppCompatActivity {
         //recebendo objeto mandado pela outra activity
         if(STATUSFORM.equals("Alterar")){
             PRODUTO_DTO = getIntent().getExtras().getParcelable("produto");
+            titulo.setText("ALTERAR PRODUTO");
             preencherCampus(PRODUTO_DTO);
         }else{
             COMPRA = getIntent().getExtras().getParcelable("compra");
@@ -134,7 +136,7 @@ public class Cadastrar_Produto_Activity extends AppCompatActivity {
                         if(STATUSFORM.equals("Cadastro de produto")){
                             salvaProduto(preecherObjeto());
                         }else if(STATUSFORM.equals("Alterar")){
-                            TITULO = "Alterar";
+                            TITULO = "Alterar Produto";
                             MSG = "Deseja Alterar os Dados?";
                             STATUS = "ALTERAR";
                             msgAlert(TITULO, MSG, STATUS);
@@ -143,51 +145,6 @@ public class Cadastrar_Produto_Activity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    public void msgAlert_three(final String titulo, String msg, final String status){
-        AlertDialog.Builder builder = new AlertDialog.Builder(Cadastrar_Produto_Activity.this, R.style.AlertDialogTheme);
-        View view = LayoutInflater.from(Cadastrar_Produto_Activity.this).inflate(
-                R.layout.layout_warning_dialog_three,(ConstraintLayout) findViewById(R.id.layoutDialogContainer)
-        );
-        builder.setView(view);
-        ((TextView) view.findViewById(R.id.txtTitle)).setText(titulo);
-        ((TextView) view.findViewById(R.id.txtMessage)).setText(msg);
-        ((Button) view.findViewById(R.id.btnOpcao1)).setText(getResources().getString(R.string.btnEdit));
-        ((Button) view.findViewById(R.id.btnOpcao2)).setText(getResources().getString(R.string.btnExclu));
-        ((Button) view.findViewById(R.id.btnOpcao3)).setText(getResources().getString(R.string.btnConsulPro));
-        ((ImageView) view.findViewById(R.id.imageIcon)).setImageResource(R.drawable.ic_warning);
-
-        final AlertDialog alertDialog = builder.create();
-        view.findViewById(R.id.btnOpcao1).setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-        view.findViewById(R.id.btnOpcao2).setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-        view.findViewById(R.id.btnOpcao3).setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-        if(alertDialog.getWindow() != null){
-            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
-        }
-
-        alertDialog.show();
     }
 
     public void salvarCompra(CompraDTO compraDTO){
