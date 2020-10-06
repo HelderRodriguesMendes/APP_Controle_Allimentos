@@ -21,5 +21,8 @@
     <string name="btnOK">OK</string>
     <string name="btnYes">SIM</string>
     <string name="btnNo">NÃO</string>
+    <string name="btnEdit">EDITAR</string>
+    <string name="btnExclu">EXCLUIR</string>
+    <string name="btnConsulPro">VERIFICAR PRODUTOS</string>
     <string name="nome_do_supermercado">Nome do Supermercado...</string>
 </resources>

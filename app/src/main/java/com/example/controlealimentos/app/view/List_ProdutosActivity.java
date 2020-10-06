@@ -2,18 +2,26 @@ package com.example.controlealimentos.app.view;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -38,6 +46,8 @@ public class List_ProdutosActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private EditText txtnome;
+    String titulo, msg, status;
+    ProdutoDTO produtoDTO = new ProdutoDTO();
 
     Retrofit_URL retrofit = new Retrofit_URL();
 
@@ -115,7 +125,7 @@ public class List_ProdutosActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<ProdutoDTO>> call, Throwable t) {
-                System.out.println("PRODUTO ERRO: "+ t.getMessage());
+                System.out.println("ERRO AO BUSCAR PRODUTO: "+ t.getMessage());
             }
         });
     }
@@ -149,15 +159,15 @@ public class List_ProdutosActivity extends AppCompatActivity {
                         new RecyclerItemClickListener.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                ProdutoDTO produtoDTO = listaProdutoDTOS.get(position);
-                                Toast.makeText(List_ProdutosActivity.this, "CLICK CURTO NOME: " + produtoDTO.getNome(), Toast.LENGTH_SHORT).show();
-                                Toast.makeText(List_ProdutosActivity.this, "CLICK CURTO ID: " + produtoDTO.getId(), Toast.LENGTH_SHORT).show();
-                                Toast.makeText(List_ProdutosActivity.this, "CLICK CURTO TIPO: " + produtoDTO.getTipo(), Toast.LENGTH_SHORT).show();
+                                produtoDTO = listaProdutoDTOS.get(position);
+                                titulo = "ALTERAR/EXCLUIR PRODUTO";
+                                msg = "O que deseja realizar com este produto?";
+                                msgAlert(titulo, msg);
                             }
 
                             @Override
                             public void onLongItemClick(View view, int position) {
-                                ProdutoDTO produtoDTO = listaProdutoDTOS.get(position);
+                                produtoDTO = listaProdutoDTOS.get(position);
                                 Toast.makeText(List_ProdutosActivity.this, "CLICK LONGO NOME: " + produtoDTO.getNome(), Toast.LENGTH_SHORT).show();
                                 Toast.makeText(List_ProdutosActivity.this, "CLICK LONGO TIPO: " + produtoDTO.getTipo(), Toast.LENGTH_SHORT).show();
                                 Toast.makeText(List_ProdutosActivity.this, "CLICK LONGO ID: " + produtoDTO.getId(), Toast.LENGTH_SHORT).show();
@@ -170,6 +180,46 @@ public class List_ProdutosActivity extends AppCompatActivity {
                         }
                 )
         );
+    }
+
+    public void msgAlert(final String titulo, String msg){
+        AlertDialog.Builder builder = new AlertDialog.Builder(List_ProdutosActivity.this, R.style.AlertDialogTheme);
+        View view = LayoutInflater.from(List_ProdutosActivity.this).inflate(
+                R.layout.layout_warning_dialog,(ConstraintLayout) findViewById(R.id.layoutDialogContainer)
+        );
+        builder.setView(view);
+        ((TextView) view.findViewById(R.id.txtTitle)).setText(titulo);
+        ((TextView) view.findViewById(R.id.txtMessage)).setText(msg);
+        ((Button) view.findViewById(R.id.btnYes)).setText(getResources().getString(R.string.btnEdit));
+        ((Button) view.findViewById(R.id.btnNo)).setText(getResources().getString(R.string.btnExclu));
+        ((ImageView) view.findViewById(R.id.imageIcon)).setImageResource(R.drawable.ic_warning);
+
+        final AlertDialog alertDialog = builder.create();
+        view.findViewById(R.id.btnYes).setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(List_ProdutosActivity.this, Cadastrar_Produto_Activity.class);
+                intent.putExtra("produto", produtoDTO);
+                Cadastrar_Produto_Activity.status_Form("Alterar");
+                startActivity(intent);
+                alertDialog.dismiss();
+            }
+        });
+
+        view.findViewById(R.id.btnNo).setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        if(alertDialog.getWindow() != null){
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+
+        alertDialog.show();
     }
 
 }

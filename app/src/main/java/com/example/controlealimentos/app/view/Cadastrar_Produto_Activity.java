@@ -75,8 +75,13 @@ public class Cadastrar_Produto_Activity extends AppCompatActivity {
         btnAdd = findViewById(R.id.imageViewAdd);
         btnSave = findViewById(R.id.imageViewSave);
 
-        //recebendo objeto compra mandado pela activity cadastrarCompraActivity
-        COMPRA = getIntent().getExtras().getParcelable("compra");
+        //recebendo objeto mandado pela outra activity
+        if(STATUSFORM.equals("Alterar")){
+            PRODUTO_DTO = getIntent().getExtras().getParcelable("produto");
+            preencherCampus(PRODUTO_DTO);
+        }else{
+            COMPRA = getIntent().getExtras().getParcelable("compra");
+        }
 
         if(COMPRA.getSupermercado() == null){
             btnAdd.setVisibility(View.GONE);
@@ -132,7 +137,7 @@ public class Cadastrar_Produto_Activity extends AppCompatActivity {
                             TITULO = "Alterar";
                             MSG = "Deseja Alterar os Dados?";
                             STATUS = "ALTERAR";
-                            msgSucesso(TITULO, MSG, STATUS);
+                            msgAlert(TITULO, MSG, STATUS);
                         }
                     }
                 }
@@ -140,86 +145,41 @@ public class Cadastrar_Produto_Activity extends AppCompatActivity {
         });
     }
 
-    public void msgSucesso(String titulo, String msg, final String status){
+    public void msgAlert_three(final String titulo, String msg, final String status){
         AlertDialog.Builder builder = new AlertDialog.Builder(Cadastrar_Produto_Activity.this, R.style.AlertDialogTheme);
         View view = LayoutInflater.from(Cadastrar_Produto_Activity.this).inflate(
-                R.layout.layout_success_dialog,(ConstraintLayout) findViewById(R.id.layoutDialogContainer)
+                R.layout.layout_warning_dialog_three,(ConstraintLayout) findViewById(R.id.layoutDialogContainer)
         );
         builder.setView(view);
         ((TextView) view.findViewById(R.id.txtTitle)).setText(titulo);
         ((TextView) view.findViewById(R.id.txtMessage)).setText(msg);
-        ((Button) view.findViewById(R.id.btnAction)).setText(getResources().getString(R.string.btnOK));
-        ((ImageView) view.findViewById(R.id.imageIcon)).setImageResource(R.drawable.ic_success);
-
-        final AlertDialog alertDialog = builder.create();
-
-        view.findViewById(R.id.btnAction).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(status.equals("FINALIZAR COMPRA") || status.equals("FINALIZAR PRODUTO")){
-                    Intent intent = new Intent(Cadastrar_Produto_Activity.this, HomeActivity.class);
-                    startActivity(intent);
-                }
-                alertDialog.dismiss();
-            }
-        });
-
-        if(alertDialog.getWindow() != null){
-            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
-        }
-
-        alertDialog.show();
-    }
-
-    public void msgAlert(final String titulo, String msg, final String status){
-        AlertDialog.Builder builder = new AlertDialog.Builder(Cadastrar_Produto_Activity.this, R.style.AlertDialogTheme);
-        View view = LayoutInflater.from(Cadastrar_Produto_Activity.this).inflate(
-                R.layout.layout_warning_dialog,(ConstraintLayout) findViewById(R.id.layoutDialogContainer)
-        );
-        builder.setView(view);
-        ((TextView) view.findViewById(R.id.txtTitle)).setText(titulo);
-        ((TextView) view.findViewById(R.id.txtMessage)).setText(msg);
-        ((Button) view.findViewById(R.id.btnYes)).setText(getResources().getString(R.string.btnYes));
-        ((Button) view.findViewById(R.id.btnNo)).setText(getResources().getString(R.string.btnNo));
+        ((Button) view.findViewById(R.id.btnOpcao1)).setText(getResources().getString(R.string.btnEdit));
+        ((Button) view.findViewById(R.id.btnOpcao2)).setText(getResources().getString(R.string.btnExclu));
+        ((Button) view.findViewById(R.id.btnOpcao3)).setText(getResources().getString(R.string.btnConsulPro));
         ((ImageView) view.findViewById(R.id.imageIcon)).setImageResource(R.drawable.ic_warning);
 
         final AlertDialog alertDialog = builder.create();
-
-        view.findViewById(R.id.btnYes).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.btnOpcao1).setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
-                if(status.equals("FINALIZAR COMPRA")){
-                    if(!txtTipo.getText().toString().equals("") && !txtNome.getText().toString().equals("") &&
-                            !textViewDataValidade.getText().toString().equals("")){
-                        if(validarCampus()){
-                            PRODUTODTOS.add(preecherObjeto());
-                            COMPRA.setProdutos(PRODUTODTOS);
-                            salvarCompra(COMPRA);
-                            limparCampus();
-                            alertDialog.dismiss();
-                        }
-                    }else{
-                        COMPRA.setProdutos(PRODUTODTOS);
-                        salvarCompra(COMPRA);
-                        alertDialog.dismiss();
-                    }
-                }
+
             }
         });
 
-        view.findViewById(R.id.btnNo).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.btnOpcao2).setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
-                if(!txtTipo.getText().toString().equals("") && !txtNome.getText().toString().equals("") &&
-                        !textViewDataValidade.getText().toString().equals("")){
-                    if(validarCampus()){
-                        PRODUTODTOS.add(preecherObjeto());
-                        limparCampus();
-                        alertDialog.dismiss();
-                    }
-                }
+
+            }
+        });
+
+        view.findViewById(R.id.btnOpcao3).setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View view) {
+
             }
         });
 
@@ -229,7 +189,6 @@ public class Cadastrar_Produto_Activity extends AppCompatActivity {
 
         alertDialog.show();
     }
-
 
     public void salvarCompra(CompraDTO compraDTO){
         CompraService compraService = retrofit.URLBase().create(CompraService.class);
@@ -279,6 +238,130 @@ public class Cadastrar_Produto_Activity extends AppCompatActivity {
         });
     }
 
+    public void alterarProduto(ProdutoDTO produtoDTO){
+        ProdutoService produtoService = retrofit.URLBase().create(ProdutoService.class);
+        Call<ProdutoDTO> call = produtoService.atualizar(produtoDTO.getId(), produtoDTO);
+
+        call.enqueue(new Callback<ProdutoDTO>() {
+            @Override
+            public void onResponse(Call<ProdutoDTO> call, Response<ProdutoDTO> response) {
+                if(response.isSuccessful()){
+                    PRODUTO_DTO = response.body();
+                    TITULO = "ALTERAR Produto";
+                    MSG = "Produto alterado com sucesso!";
+                    STATUS = "Alterado";
+                    limparCampus();
+                    msgSucesso(TITULO, MSG, STATUS);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProdutoDTO> call, Throwable t) {
+                System.out.println("Erro ao alterar produto: " + t.getMessage());
+            }
+        });
+    }
+
+    public void msgSucesso(String titulo, String msg, final String status){
+        AlertDialog.Builder builder = new AlertDialog.Builder(Cadastrar_Produto_Activity.this, R.style.AlertDialogTheme);
+        View view = LayoutInflater.from(Cadastrar_Produto_Activity.this).inflate(
+                R.layout.layout_success_dialog,(ConstraintLayout) findViewById(R.id.layoutDialogContainer)
+        );
+        builder.setView(view);
+        ((TextView) view.findViewById(R.id.txtTitle)).setText(titulo);
+        ((TextView) view.findViewById(R.id.txtMessage)).setText(msg);
+        ((Button) view.findViewById(R.id.btnAction)).setText(getResources().getString(R.string.btnOK));
+        ((ImageView) view.findViewById(R.id.imageIcon)).setImageResource(R.drawable.ic_success);
+
+        final AlertDialog alertDialog = builder.create();
+
+        view.findViewById(R.id.btnAction).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(status.equals("FINALIZAR COMPRA") || status.equals("FINALIZAR PRODUTO")){
+                    Intent intent = new Intent(Cadastrar_Produto_Activity.this, HomeActivity.class);
+                    startActivity(intent);
+                }else if(status.equals("Alterado")){
+                    Intent intent = new Intent(Cadastrar_Produto_Activity.this, List_ProdutosActivity.class);
+                    startActivity(intent);
+                }
+                alertDialog.dismiss();
+            }
+        });
+
+        if(alertDialog.getWindow() != null){
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+
+        alertDialog.show();
+    }
+
+    public void msgAlert(final String titulo, String msg, final String status){
+        AlertDialog.Builder builder = new AlertDialog.Builder(Cadastrar_Produto_Activity.this, R.style.AlertDialogTheme);
+        View view = LayoutInflater.from(Cadastrar_Produto_Activity.this).inflate(
+                R.layout.layout_warning_dialog,(ConstraintLayout) findViewById(R.id.layoutDialogContainer)
+        );
+        builder.setView(view);
+        ((TextView) view.findViewById(R.id.txtTitle)).setText(titulo);
+        ((TextView) view.findViewById(R.id.txtMessage)).setText(msg);
+
+        ((Button) view.findViewById(R.id.btnYes)).setText(getResources().getString(R.string.btnYes));
+        ((Button) view.findViewById(R.id.btnNo)).setText(getResources().getString(R.string.btnNo));
+        ((ImageView) view.findViewById(R.id.imageIcon)).setImageResource(R.drawable.ic_warning);
+
+        final AlertDialog alertDialog = builder.create();
+        view.findViewById(R.id.btnYes).setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View view) {
+                if(status.equals("FINALIZAR COMPRA")){
+                    if(!txtTipo.getText().toString().equals("") && !txtNome.getText().toString().equals("") &&
+                            !textViewDataValidade.getText().toString().equals("")){
+                        if(validarCampus()){
+                            PRODUTODTOS.add(preecherObjeto());
+                            COMPRA.setProdutos(PRODUTODTOS);
+                            salvarCompra(COMPRA);
+                            limparCampus();
+                            alertDialog.dismiss();
+                        }
+                    }else{
+                        COMPRA.setProdutos(PRODUTODTOS);
+                        salvarCompra(COMPRA);
+                        alertDialog.dismiss();
+                    }
+                }else if(status.equals("ALTERAR")){
+                    alterarProduto(preecherObjeto());
+                    alertDialog.dismiss();
+                }
+            }
+        });
+
+        view.findViewById(R.id.btnNo).setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View view) {
+                if(!txtTipo.getText().toString().equals("") && !txtNome.getText().toString().equals("") &&
+                        !textViewDataValidade.getText().toString().equals("")){
+                    if(!status.equals("ALTERAR")){
+                        if(validarCampus()){
+                            PRODUTODTOS.add(preecherObjeto());
+                            limparCampus();
+                            alertDialog.dismiss();
+                        }
+                    }else{
+                        alertDialog.dismiss();
+                    }
+                }
+            }
+        });
+
+        if(alertDialog.getWindow() != null){
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+
+        alertDialog.show();
+    }
+
     private boolean validarCampus(){
         boolean ok = false;
 
@@ -307,6 +390,9 @@ public class Cadastrar_Produto_Activity extends AppCompatActivity {
     private ProdutoDTO preecherObjeto(){
         ProdutoDTO p = new ProdutoDTO();
 
+        if(STATUSFORM.equals("Alterar")){
+            p.setId(PRODUTO_DTO.getId());
+        }
         p.setTipo(txtTipo.getText().toString());
         p.setNome(txtNome.getText().toString());
         p.setMarca(txtMarca.getText().toString());
@@ -334,5 +420,14 @@ public class Cadastrar_Produto_Activity extends AppCompatActivity {
 
     public static void status_Form(String status){
        STATUSFORM = status;
+    }
+
+    public void preencherCampus(ProdutoDTO produtoDTO){
+        txtTipo.setText(produtoDTO.getTipo());
+        txtNome.setText(produtoDTO.getNome());
+        txtMarca.setText(produtoDTO.getMarca());
+        String v = String.valueOf(produtoDTO.getValor());
+        txtValor.setText(v);
+        textViewDataValidade.setText(produtoDTO.getDataValidade());
     }
 }
